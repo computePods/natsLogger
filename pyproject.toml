@@ -1,0 +1,28 @@
+[project]
+name = "natsLogger"
+version = "0.0.1"
+description = "A simple NATS logger to listen for messages on selected channels."
+authors = [
+    {name = "Stephen Gaito", email = "stephen@perceptisys.co.uk"},
+]
+dependencies = [
+    "pyyaml~=5.4",
+    "asyncio-nats-client~=0.11",
+    "aiofiles~=0.7",
+]
+requires-python = ">=3.9"
+dynamic = ["classifiers"]
+license = {text = "Apache-2.0"}
+
+[project.urls]
+homepage = "https://github.com/computePods/natsLogger"
+
+[project.scripts]
+cplogger = "cplogger:cli"
+
+[build-system]
+requires = ["pdm-pep517"]
+build-backend = "pdm.pep517.api"
+
+[tool]
+[tool.pdm]

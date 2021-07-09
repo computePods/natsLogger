@@ -1,0 +1,11 @@
+# This is an example configuration file for the NATS logger
+
+natsServer:
+  cert: aCert
+  key: aKey
+  port: 1234
+  host: aHost
+
+channels:
+ - majorDomo.aPod.externalWebServer.reload
+ - contextWS
