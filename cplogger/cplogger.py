@@ -12,7 +12,7 @@ import traceback
 import yaml
 
 import cplogger.loadConfiguration
-from .natsClient import NatsClient
+from   cputils.natsClient import NatsClient
 
 argparser = argparse.ArgumentParser(description="Log the messages from various NATS subjects")
 argparser.add_argument('-c', '--config',
