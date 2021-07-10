@@ -1,7 +1,7 @@
 # This is the ComputePods NATS logger (cplogger) tool
 
 # This tool reads in a cploggerConfig.yaml file describing the NATS server
-# to logger as well as the list of channels to be monitored.
+# to logger as well as the list of subjects to be monitored.
 
 import asyncio
 import argparse
@@ -9,11 +9,12 @@ import datetime
 import logging
 import signal
 import traceback
+import yaml
 
 import cplogger.loadConfiguration
 from .natsClient import NatsClient
 
-argparser = argparse.ArgumentParser(description="Log the messages from various NATS channels")
+argparser = argparse.ArgumentParser(description="Log the messages from various NATS subjects")
 argparser.add_argument('-c', '--config',
   help="Load configuration from file")
 argparser.add_argument('-P', '--port',
@@ -47,19 +48,20 @@ async def sleepLoop() :
     print(datetime.datetime.now())
     await asyncio.sleep(10)
 
-def logMessage(aMessage) :
-  print(aMessage)
+def logMessage(origSubject, theSubject, theMessage) :
+  print(f"subject: {theSubject}({origSubject})")
+  print(f"message: [{yaml.dump(theMessage)}]")
 
 async def main(config) :
-  natsClient = NatsClient("cpLogger")
+  natsClient = NatsClient("cpLogger", 10)
   await natsClient.connectToServers()
 
   try:
-    logging.info("Listening to NATS channels:")
+    logging.info("Listening to NATS subjects:")
     listeners = [sleepLoop()]
-    for aChannel in config['channels'] :
-      print("  "+aChannel)
-      listeners.append(natsClient.listenToChannel(aChannel, logMessage))
+    for aSubject in config['subjects'] :
+      print("  "+aSubject)
+      listeners.append(natsClient.listenToSubject(aSubject, logMessage))
     await asyncio.gather(*listeners)
   except SignalException as err :
     logging.info("Shutting down: {}".format(str(err)))
