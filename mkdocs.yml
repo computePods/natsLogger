@@ -1,0 +1,17 @@
+site_name: ComputePods NATS logger
+
+site_url: https://computepods.github.io/natsLogger/
+
+repo_url: https://github.com/computePods/natsLogger
+
+plugins:
+  - search
+  - compute-pods
+  - awesome-pages
+  - mermaid2
+  - mkdocstrings:
+      watch:
+        - cplogger
+
+theme:
+  name: material
