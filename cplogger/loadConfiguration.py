@@ -62,8 +62,6 @@ def loadConfig(cliArgs) :
   if not cliArgs.verbose :
     cliArgs.verbose = False
 
-  print(yaml.dump(cliArgs))
-
   if cliArgs.config :
     try :
       yamlFile = open(cliArgs.config)
@@ -81,6 +79,9 @@ def loadConfig(cliArgs) :
     config['natsServer']['host'] = cliArgs.host
 
   config['rawMessages'] = cliArgs.raw
+
+  if len(config['subjects']) == 0 :
+    config['subjects'].append('>')
 
   if cliArgs.send :
     theMsg = " ".join(cliArgs.words)
