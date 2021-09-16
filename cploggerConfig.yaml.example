@@ -4,8 +4,9 @@ natsServer:
   cert: aCert
   key: aKey
   port: 1234
-  host: aHost
+  host: localhost
 
 channels:
- - majorDomo.aPod.externalWebServer.reload
- - contextWS
+ - ">"
+# - majorDomo.aPod.externalWebServer.reload
+# - contextWS

@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# This bash script runs a simple testing NATS server using podman
+
+ podman run --attach stdout --attach stderr --publish "8888:8888" \
+   playground-natsserver --trace --port 8888
