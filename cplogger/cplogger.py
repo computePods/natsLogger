@@ -73,6 +73,7 @@ async def listenToSubject(nc, rawMessages, aSubject) :
     if type(theMsg) != str :
       theMsg = "\n"+yaml.dump(theMsg)
     print("")
+    print("----------------------------------------------------------------")
     print(f"  subject: {theSubject}({aSubject})")
     print(f"  message: [{theMsg}]")
     print(f" encoding: {theEncoding}")
