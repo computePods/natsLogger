@@ -151,11 +151,6 @@ def cli() :
 
   cliArgs = argparser.parse_args()
 
-  if cliArgs.raw is None :
-    cliArgs.raw = False
-
-  if not cliArgs.config  : cliArgs.config = './cploggerConfig.yaml'
-  if not cliArgs.verbose : cliArgs.verbose = False
   config = cplogger.loadConfiguration.loadConfig(cliArgs)
 
   print("ComputePods NATS tester starting")

@@ -2,6 +2,7 @@
 Configuration loading.
 """
 
+import os
 import sys
 import yaml
 
@@ -49,14 +50,35 @@ def loadConfig(cliArgs) :
     'subjects' : [],
     'rawMessages' : False
   }
-  try :
-    yamlFile = open(cliArgs.config)
-    yamlConfig = yaml.safe_load(yamlFile.read())
-    yamlFile.close()
-    mergeYamlData(config, yamlConfig, "")
-  except Exception as ex :
-    print("Could not load the configuration file: [{}]".format(cliArgs.config))
-    print(repr(ex))
+
+  if cliArgs.raw is None :
+    cliArgs.raw = False
+
+  localConfigFile = './cploggerConfig.yaml'
+  if os.path.exists(localConfigFile) :
+    if not cliArgs.config  :
+      cliArgs.config = localConfigFile
+
+  if not cliArgs.verbose :
+    cliArgs.verbose = False
+
+  print(yaml.dump(cliArgs))
+
+  if cliArgs.config :
+    try :
+      yamlFile = open(cliArgs.config)
+      yamlConfig = yaml.safe_load(yamlFile.read())
+      yamlFile.close()
+      mergeYamlData(config, yamlConfig, "")
+    except Exception as ex :
+      print("Could not load the configuration file: [{}]".format(cliArgs.config))
+      print(repr(ex))
+
+  if cliArgs.port :
+    config['natsServer']['port'] = cliArgs.port
+
+  if cliArgs.host :
+    config['natsServer']['host'] = cliArgs.host
 
   config['rawMessages'] = cliArgs.raw
 
