@@ -2,7 +2,7 @@
 This is the ComputePods NATS logger (cplogger) tool
 
 This tool reads in a cploggerConfig.yaml file describing the NATS server
-to logger as well as the list of subjects to be monitored.
+to log as well as the list of subjects to be monitored.
 """
 
 import asyncio
@@ -19,8 +19,8 @@ from nats.aio.client import Client as NATS
 from nats.aio.errors import ErrConnectionClosed, ErrTimeout, ErrNoServers
 
 async def natsClientError(err) :
-  """natsClientError is called whenever there is a general erorr
-  associated with the NATS client or it connection to the NATS message
+  """natsClientError is called whenever there is a general error
+  associated with the NATS client or its connection to the NATS message
   system."""
 
   print("Error: {err}".format(err=err))
@@ -38,10 +38,14 @@ async def natsClientReconnected() :
   print("reconnected to NATS server.")
 
 class SignalException(Exception):
+  """Deal with (Unix system) signal exceptions."""
+
   def __init__(self, message):
     super(SignalException, self).__init__(message)
 
 def signalHandler(signum, frame) :
+  """Handle Unix system signals by raising a SingnalException. """
+
   msg = "SignalHandler: Caught signal {}".format(signum)
   print(msg)
   raise SignalException(msg)
@@ -50,6 +54,9 @@ signal.signal(signal.SIGTERM, signalHandler)
 signal.signal(signal.SIGHUP, signalHandler)
 
 async def sleepLoop() :
+  """The cplogger (asynchronous) sleep loop. Write the current time and
+  date every 10 seconds. """
+
   print("starting sleep loop")
   while True :
     print("")
@@ -57,8 +64,12 @@ async def sleepLoop() :
     await asyncio.sleep(10)
 
 async def listenToSubject(nc, rawMessages, aSubject) :
+  """Listen to the given NATS subject (aSubject). If rawMessages is true
+  then do not attempt to decode messages using JSON.decode. """
 
   def subjectCallback(aNATSMessage) :
+    """Listen to NATS messages."""
+
     theSubject = aNATSMessage.subject
     theJSONMsg = aNATSMessage.data.decode()
     theMsg = theJSONMsg
@@ -81,6 +92,8 @@ async def listenToSubject(nc, rawMessages, aSubject) :
   await nc.subscribe(aSubject, cb=subjectCallback)
 
 async def main(config) :
+  """The main asynchronous loop."""
+
   natsServer = config['natsServer']
   someServers = [ "nats://{}:{}".format(natsServer['host'], natsServer['port']) ]
   natsClient = NATS()
@@ -130,7 +143,10 @@ async def main(config) :
     await natsClient.close()
 
 def cli() :
-  argparser = argparse.ArgumentParser(description="Log the messages from various NATS subjects")
+  """The command line interface and main entry point for running the
+  cplogger."""
+
+  argparser = argparse.ArgumentParser(description="Send or log messages to/from various NATS subjects")
   argparser.add_argument('-c', '--config',
     help="Load configuration from file")
   argparser.add_argument('-P', '--port',
@@ -141,7 +157,7 @@ def cli() :
     action=argparse.BooleanOptionalAction,
     help="Send/Listen for RAW messages (default: wrap messages as json strings)")
   argparser.add_argument('words', metavar='WORD', type=str, nargs='*',
-    help="A message to send")
+    help="A message to send (optional)")
   argparser.add_argument('-s', '--send',
     help="Send a message to this subject instead of listening")
   argparser.add_argument('-m', '--messageFile',
