@@ -1,21 +1,21 @@
 [[package]]
-name = "asyncio-nats-client"
-version = "0.11.4"
-summary = "NATS client for Python Asyncio"
+name = "nats-py"
+version = "2.0.0"
+summary = "NATS client for Python"
 
 [[package]]
 name = "pyyaml"
 version = "5.4.1"
-requires_python = ">=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,!=3.5.*"
+requires_python = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, !=3.5.*"
 summary = "YAML parser and emitter for Python"
 
 [metadata]
-lock_version = "3"
-content_hash = "sha256:a480004b37b08aa0ada04d75cffc33b4d4a2608d96831fc13b0ee8354f466603"
+lock_version = "3.1"
+content_hash = "sha256:dfadb0c03c04aab74f1fdbbd737c338a488c315fdffe3318c7468543ae421cf3"
 
 [metadata.files]
-"asyncio-nats-client 0.11.4" = [
-    {file = "asyncio-nats-client-0.11.4.tar.gz", hash = "sha256:ede58bda6560cf4206059799597be9be7ba28a479c4d118cf00bda6e4471bf2e"},
+"nats-py 2.0.0" = [
+    {file = "nats-py-2.0.0.tar.gz", hash = "sha256:e983751199f38edad89eedc764d295f7359a2c0cc610d886e48e5a465b6a1ad1"},
 ]
 "pyyaml 5.4.1" = [
     {file = "PyYAML-5.4.1-cp27-cp27m-macosx_10_9_x86_64.whl", hash = "sha256:3b2b1824fe7112845700f815ff6a489360226a5609b96ec2190a45e62a9fc922"},

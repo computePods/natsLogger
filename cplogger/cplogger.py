@@ -67,7 +67,7 @@ async def listenToSubject(nc, rawMessages, aSubject) :
   """Listen to the given NATS subject (aSubject). If rawMessages is true
   then do not attempt to decode messages using JSON.decode. """
 
-  def subjectCallback(aNATSMessage) :
+  async def subjectCallback(aNATSMessage) :
     """Listen to NATS messages."""
 
     theSubject = aNATSMessage.subject
