@@ -54,10 +54,14 @@ def loadConfig(cliArgs) :
   if cliArgs.raw is None :
     cliArgs.raw = False
 
+  configFile = '~/.config/computePods/cploggerConfig.yaml'
   localConfigFile = './cploggerConfig.yaml'
   if os.path.exists(localConfigFile) :
-    if not cliArgs.config  :
-      cliArgs.config = localConfigFile
+    configFile = localConfigFile
+  if not cliArgs.config  :
+    cliArgs.config = os.path.expanduser(configFile)
+
+  print("configFile [{}]".format(cliArgs.config))
 
   if not cliArgs.verbose :
     cliArgs.verbose = False
